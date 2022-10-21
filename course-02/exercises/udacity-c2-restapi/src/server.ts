@@ -1,16 +1,20 @@
 import express from 'express';
 import { sequelize } from './sequelize';
-
+import { config } from './config/config';
 import { IndexRouter } from './controllers/v0/index.router';
 
 import bodyParser from 'body-parser';
 
 import { V0MODELS } from './controllers/v0/model.index';
-
-(async () => {
+async function main() {
+  
   await sequelize.addModels(V0MODELS);
-  await sequelize.sync();
+  try {
+  await sequelize.sync({ force: true,logging:true })
+  } catch (e) {
 
+    console.log('here' + e);
+  }
   const app = express();
   const port = process.env.PORT || 8080; // default port to listen
   
@@ -36,4 +40,5 @@ import { V0MODELS } from './controllers/v0/model.index';
       console.log( `server running http://localhost:${ port }` );
       console.log( `press CTRL+C to stop server` );
   } );
-})();
+}
+main();
