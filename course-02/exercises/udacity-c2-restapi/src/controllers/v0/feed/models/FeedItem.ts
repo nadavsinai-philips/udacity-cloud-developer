@@ -2,7 +2,7 @@ import {Table, Column, Model, HasMany, PrimaryKey, CreatedAt, UpdatedAt, Foreign
 import { User } from '../../users/models/User';
 
 @Table
-export class FeedItem extends Model<Partial<FeedItem>> {
+export class FeedItem extends Model<FeedItem> {
   @Column
   public caption!: string;
 

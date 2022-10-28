@@ -9,10 +9,16 @@ const conParams ={
     host: c.host,
   };
   console.log(conParams);
-const client = new Client(conParams);
+  let client
+  try {
+      client = new Client(conParams);
+  }catch (e){
+      console.log(e);
+  }
 async function main() {
   await client.connect();
   const res = await client.query("SELECT NOW()");
+  console.log(res);
   await client.end();
 }
 
