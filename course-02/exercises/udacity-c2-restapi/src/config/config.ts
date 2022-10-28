@@ -1,7 +1,7 @@
 export const config = {
   "dev": {
-    "username": "udnadavdev",
-    "password": "",
+    "username": process.env.UDACITY_USERNAME,
+    "password": process.env.UDACITY_PASSWORD,
     "database": "unnadavdev",
     "host": "udnadavdev.cqhp9p1sljey.us-east-1.rds.amazonaws.com",
     "dialect": "postgres",
