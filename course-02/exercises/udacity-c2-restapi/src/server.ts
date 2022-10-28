@@ -10,7 +10,7 @@ async function main() {
   
   await sequelize.addModels(V0MODELS);
   try {
-  await sequelize.sync({ force: true,logging:true })
+    await sequelize.sync({ force: true,logging:true })
   } catch (e) {
 
     console.log('here' + e);
