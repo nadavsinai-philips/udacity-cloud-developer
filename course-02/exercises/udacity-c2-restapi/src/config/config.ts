@@ -1,22 +1,18 @@
 export const config = {
   "dev": {
-    "username": "",
-    "password": "",
-    "database": "",
-    "host": "",
+    "username":process.env.UDACITY_USERNAME,
+    "password": process.env.UDACITY_PASSWORD,
+    "database": process.env.UDACITY_DATABASE,
+    "host":"localhost", 
     "dialect": "postgres",
-    "aws_region": "us-east-2",
+    "aws_region": "us-east-1",
     "aws_profile": "default",
     "aws_media_bucket": "udagram-ruttner-dev"
   },
   "jwt": {
-    "secret": " "
+    "secret": process.env.JWT_SECRET
   },
   "prod": {
-    "username": "",
-    "password": "",
-    "database": "udagram_prod",
-    "host": "",
-    "dialect": "postgres"
+    "host":  process.env.UDACITY_DB_URL,
   }
 }

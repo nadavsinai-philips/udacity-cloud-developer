@@ -42,7 +42,7 @@ router.get('/signed-url/:fileName',
 // body : {caption: string, fileName: string};
 router.post('/', 
     requireAuth, 
-    async (req: Request, res: Response) => {
+    async (req, res) => {
     const caption = req.body.caption;
     const fileName = req.body.url;
 
