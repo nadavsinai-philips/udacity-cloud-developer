@@ -5,8 +5,12 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
+    "package:dist":"cp  -f package.server.json www/package.json",
+    "archive:dist": "cd www && zip -r Archive.zip .",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "npm run build -- --prod",
+    "build:prod:deploy":"rm -rf www && npm run build:prod && npm run package:dist &&npm run archive:dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
