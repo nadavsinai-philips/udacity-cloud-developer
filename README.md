@@ -1,22 +1,31 @@
-# Archival Note
-**Fork** the Udacity's repository to your personal Github account and clone to your local. We do not encourage pushing your personal development work to the Udacity's starter repository. Therefore, we've decided to archive this repository. However, learners will be able to fork it to their personal Github account but cannot submit PRs to this repository. If you have any issues or suggestions to make, feel free to:
-- Utilize the https://knowledge.udacity.com/ forum to seek help on content-specific issues.
-- Submit a support ticket along with the link to your forked repository if (learners are) blocked for other reasons. You can find the link to file a support ticket in your classroom home. 
-
-# ND9990 cloud-developer
-Content for Udacity's cloud developer nanodegree's following two courses:
-* Course 02 - Full Stack Apps on AWS
-* Course 04 - Develop & Deploy Serverless App
+# Udagram project submission
+### > by Nadav Sinai <
 
 Here is the repository structure:
 ```bash
 ├── README.md
-├── course-02
-│   ├── exercises
-│   └── project
-└── course-04
-    ├── exercises
-    └── project
+├── api-server
+├── frontend
+└── image-service
+   
 ```
+this repo is a fork of the `udacity-cloud-developer` repo with only the relevent files for the project submission kept. [see refactor commit]()
 
+
+## Live example
+the live example url is :
+
+## Deployment
+
+ElasticBean stalk was used to deploy the 3 apps.
+* the image-service is avilable at - 
+* the api-service is available at - 
+* frontEnd is again 
+
+
+# extra points done
+ - nice refacotring of the repo and keeping good branch managment practices (se pprs etc)
+ - whole app deployed and connected
+ - Auth implemendented
+ 
 
