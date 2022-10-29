@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
-import {setTimeout} from 'timers/promises';
+
 
 (async () => {
 
@@ -50,8 +50,9 @@ import {setTimeout} from 'timers/promises';
         }
         const imagePath = await filterImageFromURL(imageUrl as string);
         res.status(200).sendFile(imagePath)
-        await setTimeout(50); // wait for the file to be sent
-        await deleteLocalFiles([imagePath]);
+        res.on('finish', async () => {
+            await deleteLocalFiles([imagePath]);
+       });       
     });
 
     // Start the Server
