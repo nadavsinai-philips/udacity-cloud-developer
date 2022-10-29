@@ -3,6 +3,7 @@ import { FeedItem } from '../models/FeedItem';
 import { requireAuth } from '../../users/routes/auth.router';
 import * as AWS from '../../../../aws';
 
+
 const router: Router = Router();
 
 // Get all feed items
@@ -16,15 +17,26 @@ router.get('/', async (req: Request, res: Response) => {
     res.send(items);
 });
 
-//@TODO
+//@TODO -DONE
 //Add an endpoint to GET a specific resource by Primary Key
+router.get('/:id', 
+    async (req: Request, res: Response) => {
+        try {
+        const item = await FeedItem.findByPk(req.params.id);
+        res.status(200).send(JSON.stringify(item))
+        }
+        catch(e){
+            res.status(500).send('"error":"error getting item ');
+        }
+        
+});
 
 // update a specific resource
 router.patch('/:id', 
     requireAuth, 
     async (req: Request, res: Response) => {
-        //@TODO try it yourself
-        res.status(500).send("not implemented")
+        const success= await FeedItem.upsert({id:req.params.id,...req.body.item})
+        res.status(200).send(JSON.stringify({saved:success}));
 });
 
 
@@ -33,8 +45,15 @@ router.get('/signed-url/:fileName',
     requireAuth, 
     async (req: Request, res: Response) => {
     let { fileName } = req.params;
-    const url = AWS.getPutSignedUrl(fileName);
-    res.status(201).send({url: url});
+    let url;
+    try {
+        const url = await AWS.getPutSignedUrl(fileName);
+        res.status(201).send({url: url});
+    }
+    catch(e){
+        res.status(500).send('"error":"error getting signed URL ');
+    }
+    
 });
 
 // Post meta data and the filename after a file is uploaded 

@@ -1,6 +1,6 @@
 import { Client } from "pg";
 import { config } from "./config/config";
-const c = config.dev;
+const c = config;
 const conParams ={
     user: c.username,
     password: c.password,

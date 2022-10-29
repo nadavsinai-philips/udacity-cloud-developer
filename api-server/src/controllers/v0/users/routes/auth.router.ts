@@ -121,7 +121,7 @@ router.post('/', async (req: Request, res: Response) => {
     // Generate JWT
     const jwt = generateJWT(savedUser);
 
-    res.status(201).send({token: jwt, user: savedUser.short()});
+    res.status(200).send({token: jwt, user: savedUser.short()});
 });
 
 router.get('/', async (req: Request, res: Response) => {
