@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
-import {setTimeout} from 'timers/promises';
+
 
 (async () => {
 
@@ -43,15 +43,16 @@ import {setTimeout} from 'timers/promises';
         res.send('OK')
     });
 
-    app.get("/filteredimage", async (req: Request, res: Response) => {
+    app.post("/filteredimage", async (req: Request, res: Response) => {
         const imageUrl = req.query["image_url"];
         if (!imageUrl || typeof imageUrl != 'string' || imageUrl.length === 0) {
             return res.status(404).send('{"error":"URL NOT FOUND"}')
         }
         const imagePath = await filterImageFromURL(imageUrl as string);
         res.status(200).sendFile(imagePath)
-        await setTimeout(50); // wait for the file to be sent
-        await deleteLocalFiles([imagePath]);
+        res.on('finish', async () => {
+            await deleteLocalFiles([imagePath]);
+       });       
     });
 
     // Start the Server

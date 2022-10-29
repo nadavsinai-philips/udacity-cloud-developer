@@ -60,14 +60,18 @@ export class ApiService {
                                     headers: headers,
                                     reportProgress: true, // track progress
                                   });
-
-    return new Promise ( resolve => {
-        this.http.request(req).subscribe((resp) => {
-        if (resp && resp.type === HttpEventType.Response && (<any> resp).status && (<any> resp).status === 200) {
-          resolve(this.post(endpoint, payload));
-        }
-      });
-    });
+  // make the post for the DB even if AWS upload fails...
+    await this.post(endpoint, payload)
+    try {
+      await this.http.request(req).toPromise();
+    } catch(e){
+      console.log('problem uploading to aws bucket...')
+    }
+        //                   (resp) => {
+        // if (resp && resp.type === HttpEventType.Response && (<any> resp).status && (<any> resp).status === 200) {
+        //   resolve();
+        // }
+   
   }
 
   /// Utilities
