@@ -2,8 +2,9 @@ import { Router, Request, Response } from 'express';
 import { FeedItem } from '../models/FeedItem';
 import { requireAuth } from '../../users/routes/auth.router';
 import * as AWS from '../../../../aws';
+import { config } from '../../../../config/config';
 
-
+import {Axios} from 'axios'
 const router: Router = Router();
 
 // Get all feed items
@@ -79,10 +80,21 @@ router.post('/',
             caption: caption,
             url: fileName
     });
+    
+    
 
     const saved_item = await item.save();
+    const tempUrl = AWS.getGetSignedUrl(saved_item.url);
+    const imageServerUrl ='http://udgram-image-filter-dev.us-east-1.elasticbeanstalk.com/filteredimage?image_url='
+    const reqUrl = imageServerUrl + tempUrl;
 
-    saved_item.url = AWS.getGetSignedUrl(saved_item.url);
+    const client = new Axios({});
+    const imageRequest = await client.post(reqUrl) 
+    const imageBuffer = imageRequest.data;
+
+    const ret = await AWS.s3.putObject({Body:imageBuffer,Key:"filtered_"+fileName,Bucket:config.aws_media_bucket}).promise()
+
+    saved_item.url = AWS.getGetSignedUrl("filtered_"+fileName);
     res.status(201).send(saved_item);
 });
 
