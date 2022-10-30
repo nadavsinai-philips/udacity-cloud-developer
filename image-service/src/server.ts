@@ -43,17 +43,26 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
         res.send('OK')
     });
 
-    app.post("/filteredimage", async (req: Request, res: Response) => {
+    app.post("/filteredimage", onFilterImageRequest);
+    app.get("/filteredimage", onFilterImageRequest);
+
+    async function onFilterImageRequest(req: Request, res: Response) {
         const imageUrl = req.query["image_url"];
         if (!imageUrl || typeof imageUrl != 'string' || imageUrl.length === 0) {
             return res.status(404).send('{"error":"URL NOT FOUND"}')
         }
+        try {
         const imagePath = await filterImageFromURL(imageUrl as string);
         res.status(200).sendFile(imagePath)
         res.on('finish', async () => {
             await deleteLocalFiles([imagePath]);
-       });       
-    });
+       });
+        } catch (e) {
+            res.status(500).send('{"error":"INTERNAL SERVER ERROR"}')
+        }
+        
+               
+    };
 
     // Start the Server
     app.listen(port, () => {
